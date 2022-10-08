@@ -29,17 +29,17 @@ The framework consists of mappers and reducers. The input data is divided in chu
 
 ## How to run?
 
-# Pre Requisites
+### Pre Requisites
 - Simple Build Toolkit (SBT)
 - Apache Hadoop
 
-# Create Jar
+### Create Jar
 - Clone the project
 - Open sbt terminal and navigate to project (if not already there)
 - Run following command "sbt clean compile assembly"
 - A jar should be created inside target folder
 
-# Run on windows machine
+### Run on windows machine
 - Create jar using above command
 - Open cmd and start the nodes using start-dfs.cmd and start-yarn.cmd
 - Create a directory called input 
