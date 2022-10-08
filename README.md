@@ -1,15 +1,20 @@
 # MapReduceLogAnalyser_Gunjan
 ### Repository to solve Diffusion computation using Map Reduce Framework
 Submitted By - Gunjan Tomar
+
 UIN - 674659382
+
 Email Id : gtomar2@uic.edu
 
 ## Overview
 This objective of this repository is to analyse log files and produce perform following computations in different jobs and produce a csv
 
 Job 1 - The distribution of different types of messages(matching a certain predefined regex pattern) across predefined time intervals.
+
 Job 2 - The time intervals that contained most log messages of the type ERROR with injected regex pattern string instances. 
+
 Job 3 - The number of the generated log messages for each message type(ERROR,DEBUG,INFO,WARN 
+
 Job 4 - The number of characters in each log message for each log message type that contain the highest number of characters in the detected instances of the designated regex pattern
 
 ## About Framework
@@ -22,9 +27,22 @@ The framework consists of mappers and reducers. The input data is divided in chu
 
  
 
-## How Pre to run?
+## How to run?
 
 # Pre Requisites
+- Simple Build Toolkit (SBT)
+- Apache Hadoop
+
+# Create Jar
+- Clone the project
+- Open sbt terminal and navigate to project (if not already there)
+- Run following command "sbt clean compile assembly"
+- A jar should be created inside target folder
+
+# Run on windows machine
+- Create jar using above command
+- Open cmd and start the nodes using start-dfs.cmd and start-yarn.cmd
+- Create a directory called input 
 
     
   
