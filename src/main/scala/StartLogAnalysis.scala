@@ -119,7 +119,7 @@ object StartLogAnalysis:
     logger.info("Job 2 Part 2 triggered")
     JobClient.runJob(conf2)
     if (config.getString("LogMessageInfo.env") == "local") {
-      new File(opPath.concat("\\part-00000")).renameTo(new File(opPath.concat("\\output.csv")))
+      new File(opPath2.concat("\\part-00000")).renameTo(new File(opPath2.concat("\\output.csv")))
     }
 
 
@@ -159,9 +159,9 @@ object StartLogAnalysis:
     conf.set("mapreduce.job.reduces", "1")
     conf.set("mapreduce.output.textoutputformat.separator", ",")
     conf.setOutputKeyClass(classOf[Text])
-    conf.setOutputValueClass(classOf[IntWritable])
+    conf.setOutputValueClass(classOf[Text])
     conf.setInputFormat(classOf[TextInputFormat])
-    conf.setOutputFormat(classOf[TextOutputFormat[Text, IntWritable]])
+    conf.setOutputFormat(classOf[TextOutputFormat[Text, Text]])
     conf.setMapperClass(classOf[MaxCharacterCountMapper])
     conf.setReducerClass(classOf[MaxCharacterCountReducer])
     val timestamp = (System.currentTimeMillis / 1000).toString

@@ -16,13 +16,13 @@ import java.time.temporal.ChronoField
     if pattern matches the mathed message along with its length and message type is collected
 */
 
-class MaxCharacterCountMapper extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable] :
+class MaxCharacterCountMapper extends MapReduceBase with Mapper[LongWritable, Text, Text, Text] :
 
   //Creating Logger
   private val logger: Logger = Logger.getLogger(getClass.getName)
   
   @throws[IOException]
-  def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
+  def map(key: LongWritable, value: Text, output: OutputCollector[Text, Text], reporter: Reporter): Unit =
     logger.info("Job 4 mapper started")
     val tuple = HelperUtils().maxCharacterHelper(value)
     if(tuple._1!=null){

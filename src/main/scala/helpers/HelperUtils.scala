@@ -130,7 +130,7 @@ class HelperUtils {
 
   //helper function for Job 4 checks if given line matches value for given regex 
   //if true returns msg type and matched msg along with its length
-  def maxCharacterHelper(value:Text) : (Text, IntWritable) = {
+  def maxCharacterHelper(value:Text) : (Text, Text) = {
     val line: String = value.toString
     val msgMatch = pattern.findFirstIn(line)
     //checking if log message matches provided pattern
@@ -141,8 +141,8 @@ class HelperUtils {
         msgType match {
           case Some(mt) => {
             val key = mt
-            //returning msgType,matchedMessage as key and length of matched message as value
-            (Text(key), IntWritable(msg.length))
+            //returning msgType as key and matched msg as value
+            (Text(key), Text(msg.concat(",")))
           }
           case None =>
             (null, null)
