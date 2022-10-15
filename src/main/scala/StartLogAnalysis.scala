@@ -92,7 +92,7 @@ object StartLogAnalysis:
     val timestamp = (System.currentTimeMillis / 1000).toString
     FileInputFormat.setInputPaths(conf, new Path(inputPath))
     //output will be stored in afile with name outputfoldername_job_{{job_id}}
-    val opPath = outputPath.concat("_Job").concat("_2_").concat(timestamp)
+    val opPath = outputPath.concat("_Job").concat("_2_1_").concat(timestamp)
     FileOutputFormat.setOutputPath(conf, new Path(opPath))
     logger.info("Job 2 Part 1 triggered")
     JobClient.runJob(conf)
@@ -113,8 +113,8 @@ object StartLogAnalysis:
     conf2.setMapOutputKeyClass(classOf[IntWritable])
     conf2.setMapOutputValueClass(classOf[Text])
     conf2.setReducerClass(classOf[SortReducer])
-    FileInputFormat.setInputPaths(conf2, new Path(opPath.concat("\\part-00000")))
-    val opPath2 = outputPath.concat("_Job").concat("_22_").concat(timestamp)
+    FileInputFormat.setInputPaths(conf2, new Path(opPath.concat("/part-00000")))
+    val opPath2 = outputPath.concat("_Job").concat("_2_2_").concat(timestamp)
     FileOutputFormat.setOutputPath(conf2, new Path(opPath2))
     logger.info("Job 2 Part 2 triggered")
     JobClient.runJob(conf2)
