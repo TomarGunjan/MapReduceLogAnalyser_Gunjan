@@ -27,24 +27,35 @@ object StartLogAnalysis:
 */
   //creating logger
   val logger: Logger = Logger.getLogger(getClass.getName)
+  //loading config
   val config = ConfigFactory.load()
+  //local strings to be user
+  val local = "local"
+  val outputFileName = "/output.csv"
+  val pathExtension = "/part-00000"
+  val job1 = "1"
+  val job2 = "2"
+  val job3 = "3"
+  val job4 = "4"
+  val allJobs = "5"
+
   @main def runMapReduce(jobId: String, inputPath: String, outputPath: String): Unit =
 
    // running different job based on user input
 
-    if (jobId == "1"||jobId=="5") {
+    if (jobId == job1||jobId==allJobs) {
       runJob1(inputPath, outputPath)
     }
 
-    if (jobId == "2"||jobId=="5")  {
+    if (jobId == job2||jobId==allJobs)  {
       runJob2(inputPath,outputPath)
     }
 
-    if (jobId == "3"||jobId=="5") {
+    if (jobId == job3||jobId==allJobs) {
       runJob3(inputPath, outputPath)
     }
 
-    if (jobId == "4"||jobId=="5") {
+    if (jobId == job4||jobId==allJobs) {
       runJob4(inputPath, outputPath)
     }
 
@@ -70,8 +81,8 @@ object StartLogAnalysis:
     FileOutputFormat.setOutputPath(conf, new Path(opPath))
     logger.info("Job triggered")
     JobClient.runJob(conf)
-    if(config.getString("LogMessageInfo.env")=="local") {
-      new File(opPath.concat("\\part-00000")).renameTo(new File(opPath.concat("\\output.csv")))
+    if(config.getString("LogMessageInfo.env")==local) {
+      new File(opPath.concat(pathExtension)).renameTo(new File(opPath.concat(outputFileName)))
     }
 
   def runJob2(inputPath: String, outputPath: String):Unit =
@@ -113,13 +124,13 @@ object StartLogAnalysis:
     conf2.setMapOutputKeyClass(classOf[IntWritable])
     conf2.setMapOutputValueClass(classOf[Text])
     conf2.setReducerClass(classOf[SortReducer])
-    FileInputFormat.setInputPaths(conf2, new Path(opPath.concat("/part-00000")))
+    FileInputFormat.setInputPaths(conf2, new Path(opPath.concat(pathExtension)))
     val opPath2 = outputPath.concat("_Job").concat("_2_2_").concat(timestamp)
     FileOutputFormat.setOutputPath(conf2, new Path(opPath2))
     logger.info("Job 2 Part 2 triggered")
     JobClient.runJob(conf2)
-    if (config.getString("LogMessageInfo.env") == "local") {
-      new File(opPath2.concat("\\part-00000")).renameTo(new File(opPath2.concat("\\output.csv")))
+    if (config.getString("LogMessageInfo.env") == local) {
+      new File(opPath2.concat(pathExtension)).renameTo(new File(opPath2.concat(outputFileName)))
     }
 
 
@@ -170,6 +181,6 @@ object StartLogAnalysis:
     FileOutputFormat.setOutputPath(conf, new Path(opPath))
     logger.info("Job triggered")
     JobClient.runJob(conf)
-    if (config.getString("LogMessageInfo.env") == "local") {
-      new File(opPath.concat("\\part-00000")).renameTo(new File(opPath.concat("\\output.csv")))
+    if (config.getString("LogMessageInfo.env") == local) {
+      new File(opPath.concat(pathExtension)).renameTo(new File(opPath.concat(outputFileName)))
     }
