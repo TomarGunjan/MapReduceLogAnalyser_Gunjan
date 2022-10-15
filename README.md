@@ -11,15 +11,32 @@ This objective of this repository is to analyse log files and produce perform fo
 
 Job 1 - The distribution of different types of messages(matching a certain predefined regex pattern) across predefined time intervals.
 
-Job 2 - The time intervals that contained most log messages of the type ERROR with injected regex pattern string instances. 
+Job 2 - The time intervals sorted in descending order of that contained most log messages of the type ERROR with injected regex pattern string instances. 
 
 Job 3 - The number of the generated log messages for each message type(ERROR,DEBUG,INFO,WARN 
 
 Job 4 - The number of characters in each log message for each log message type that contain the highest number of characters in the detected instances of the designated regex pattern
 
 ## About Framework
-Hadoop MapReduce is a software framework for easily writing applications which process vast amounts of data (multi-terabyte data-sets) in-parallel on large clusters (thousands of nodes) of commodity hardware in a reliable, fault-tolerant manner.
-The framework consists of mappers and reducers. The input data is divided in chunks and given to multiple mapreduces to be processed parallely. 
+Hadoop MapReduce is a software framework for easily writing applications which process vast amounts of data in-parallel on large clusters (thousands of nodes) of commodity hardware in a reliable, fault-tolerant manner.
+
+The framework consists of mappers and reducers. The input data is divided in chunks and given to multiple mapreduces to be processed parallely.
+
+There are 2 stages of data processing in MapReduce Framework
+
+Mapper - Here the mapper takes input in format of key-value pair and outputs data in key value pair upon some processing <k1,v1>
+
+Reducer - Here the reducer takes the output from mapper in the form of key and all values mapped against it and generated output in form of key value pair <k2,v2>
+
+For example say a file contains strings and we want to extract all words and their occurence. 
+
+Mapper input - the file
+
+Mapper output - The key would be each word and value would be 1 for each occurence
+
+Reducer input - The key would be the key from mapper output and value would be a list of values which has same key in this case a list of 1
+
+Reducer output - After iterating over values from the input, the total number would be calculated and reducer out put would have word as key and its count as value
 
 ## Project Details and some things to note
 
@@ -91,7 +108,10 @@ The output shows the longest string matched for each message type. Column 1 show
 
 
 
- 
+## Sources
+ 1. Dr. Grechanik, Mark, (2020) Cloud Computing: Theory and Practice.
+ 2. [Apache Hadoop](https://hadoop.apache.org/)
+ 3. [AWS](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-gs.html)
 
     
   
