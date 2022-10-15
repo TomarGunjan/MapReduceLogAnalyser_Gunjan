@@ -21,15 +21,21 @@ Job 4 - The number of characters in each log message for each log message type t
 Hadoop MapReduce is a software framework for easily writing applications which process vast amounts of data (multi-terabyte data-sets) in-parallel on large clusters (thousands of nodes) of commodity hardware in a reliable, fault-tolerant manner.
 The framework consists of mappers and reducers. The input data is divided in chunks and given to multiple mapreduces to be processed parallely. 
 
-## Project Details
+## Project Details and some things to note
 
-![fw](https://user-images.githubusercontent.com/26132783/194685394-58838fa4-fe14-40f5-8404-f68bc4fb96af.png)
+The project structure can be summarised as below
+
+![image](https://user-images.githubusercontent.com/26132783/196000767-7690fff2-6465-4b31-a710-489da76ea4e2.png)
 
  
- The main function in StartLogAnalyser.scala class takes 3 arguments
+The main function in StartLogAnalyser.scala class takes 3 arguments
  - jobId
  - input path
  - output path
+ 
+The "***env***" config value should be set to "local" to have output files generated as .csv files
+
+Job 1, 3 and 4 consists of single mapper and Reducer class whereas in Job 2 The put put of reducer has been pipelined to another job with a different mapper and Reducer class
 
 ## How to run?
 
@@ -51,6 +57,7 @@ The framework consists of mappers and reducers. The input data is divided in chu
   - hdfs dfs -put <path to log file> /input
 - run the created jar with following account and pass space separated input parameters as mentioned in Project Details section
   hadoop jar <path to jar> <input parameters>
+
  
 ### Run on AWS EMR
 - Create a new bucket in AWS EMR with default configs
@@ -59,6 +66,30 @@ The framework consists of mappers and reducers. The input data is divided in chu
 - Create a cluster with default config(select emr release 6 for hadoop 3.x.y)
 - Add step to the cluster, select custom jar and provide s3 path for the uploaded jar file
 - provide input arguments with job id and s3 path to input folder and output folder name
+
+## Output Format
+
+### 1. Job 1 Sample
+The output shows total number of messages matched with a pattern(provided in config) in a time interval(start time and end time in config). Column 1 shows Message Type and column 2 shows the count of messages matched
+
+![image](https://user-images.githubusercontent.com/26132783/196001161-0121a9d2-3ea3-4fe0-be83-84887011f1f9.png)
+
+### 2. Job 2 Sample
+The output shows the error messages distribution in the log file. Column 1 shows the time interval and column 2 shows number of error messages matched with the pattern(provided in config). The out put is arranged in descending order of message count
+
+![image](https://user-images.githubusercontent.com/26132783/196001367-d7be231c-75d7-4fea-9717-aa2572cc207a.png)
+
+### 3. Job 3 Sample
+The output shows number of messages matched with pattern(provided in config) in the entire input file. Column 1 shows message type and column 2 shows the counts of messages matched
+
+![image](https://user-images.githubusercontent.com/26132783/196001525-bfcbd584-bcf2-4ae9-bb1a-c797d89454d4.png)
+
+### 4. Job 4 Sample
+The output shows the longest string matched for each message type. Column 1 shows message type, column 2 shows length of the longest string matched for that message type and column 3 shows the matched string itself
+
+![image](https://user-images.githubusercontent.com/26132783/196002244-fe01781e-42a3-4f7a-9205-34d4f7fa0353.png)
+
+
 
  
 
