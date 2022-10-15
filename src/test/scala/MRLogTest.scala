@@ -47,9 +47,11 @@ class MRLogTest extends AnyFlatSpec with Matchers{
   }
 
   it should "return matched pattern and its length from the given input" in {
-    val expectedOutput = new Text("ERROR,af0ce3H6sA5hM8qR7hae3bf1H8jV8j")
+    val expectedOutput1 = new Text("ERROR")
+    val expectedOutput2 = new Text("af0ce3H6sA5hM8qR7hae3bf1H8jV8j")
     val output = helperClass.maxCharacterHelper(input)
-    output._1.shouldBe(expectedOutput)
+    output._1.shouldBe(expectedOutput1)
+    output._2.shouldBe(expectedOutput2)
   }
 
   it should "return no output if there was no match" in {

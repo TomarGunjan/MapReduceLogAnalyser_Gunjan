@@ -142,7 +142,7 @@ class HelperUtils {
           case Some(mt) => {
             val key = mt
             //returning msgType as key and matched msg as value
-            (Text(key), Text(msg.concat(",")))
+            (Text(key), Text(msg))
           }
           case None =>
             (null, null)
