@@ -23,7 +23,7 @@ class MaxCharacterCountMapper extends MapReduceBase with Mapper[LongWritable, Te
   
   @throws[IOException]
   def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
-    logger.info("Job 4 mapper has been triggered")
+    logger.info("Job 4 mapper started")
     val tuple = HelperUtils().maxCharacterHelper(value)
     if(tuple._1!=null){
       logger.info(s"a match was found and key ${tuple._1} and value ${tuple._2} will be stored")

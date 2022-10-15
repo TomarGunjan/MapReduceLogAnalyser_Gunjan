@@ -10,6 +10,8 @@ import java.io.IOException
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoField
+import scala.collection.immutable.ListMap
+import java.util.StringTokenizer
 
 /*Job 2 Mappr : Error type log distribution with message matching pattern
     this mapper takes value from a file line by line 
@@ -30,7 +32,7 @@ class ErrorMsgDistributionMapper extends MapReduceBase with Mapper[LongWritable,
 
   @throws[IOException]
   override def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
-    logger.info("Job2 mapper has been triggered")
+    logger.info("Job2 mapper 1 started")
     val key = HelperUtils().errMsgDistributionHelper(value)
     if(key!=null) {
       logger.info(s"a match was found and key $key  and value $one will be stored")

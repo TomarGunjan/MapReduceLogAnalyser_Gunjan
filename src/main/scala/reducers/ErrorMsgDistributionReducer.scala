@@ -8,7 +8,7 @@ import org.apache.log4j.Logger
 import java.util
 import scala.jdk.CollectionConverters.*
 
-/* Job 2 Reducer
+/* Job 2 Reducer 1
     count messages found in same interval and outputs their count against the interval
 */
 class ErrorMsgDistributionReducer extends MapReduceBase with Reducer[Text, IntWritable, Text, IntWritable] :

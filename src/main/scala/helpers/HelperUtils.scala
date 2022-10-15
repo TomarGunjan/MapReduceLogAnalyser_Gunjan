@@ -72,7 +72,7 @@ class HelperUtils {
     val formatter = DateTimeFormatter.ofPattern("HH:mm:ss.nnn")
     //msgpattern to match "ERROR"
     val errMsgPattern = config.getString("LogMessageInfo.errorMsgPattern").r
-    
+    var records = collection.mutable.Map[String, Integer]()
     val line: String = value.toString
     val msgType = errMsgPattern.findFirstIn(line)
     msgType match {
@@ -140,7 +140,7 @@ class HelperUtils {
         //checking type of log
         msgType match {
           case Some(mt) => {
-            val key = mt.concat(",").concat(msg)
+            val key = mt
             //returning msgType,matchedMessage as key and length of matched message as value
             (Text(key), IntWritable(msg.length))
           }
@@ -152,7 +152,10 @@ class HelperUtils {
         (null, null)
       }
   }
+
+
 }
+
 
 
 

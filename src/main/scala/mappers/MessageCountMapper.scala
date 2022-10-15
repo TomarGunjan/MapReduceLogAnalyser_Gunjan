@@ -24,7 +24,7 @@ class MessageCountMapper extends MapReduceBase with Mapper[LongWritable, Text, T
   //Creating Mapper Function
   @throws[IOException]
   override def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
-    logger.info("Job 3 mapper has been triggered")
+    logger.info("Job 3 mapper started")
     val key = HelperUtils().msgCounterHelper(value)
     if (key != null){
       logger.info(s"a match was found and key ${key} and value $one will be stored")

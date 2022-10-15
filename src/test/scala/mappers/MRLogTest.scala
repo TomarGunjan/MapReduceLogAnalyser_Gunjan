@@ -32,7 +32,7 @@ class MRLogTest extends AnyFlatSpec with Matchers{
 
   it should "filter out data against time interval specified in configuration and give count of entries found " +
     "for matching pattern" in {
-    val expectedOutput = new Text("00:40:00.001-00:50:00.000")
+    val expectedOutput = new Text("17:40:00.001-17:50:00.000")
     val output = helperClass.errMsgDistributionHelper(input)
     output.shouldBe(expectedOutput)
   }
@@ -49,14 +49,14 @@ class MRLogTest extends AnyFlatSpec with Matchers{
   }
 
   it should "return matched pattern and its length from the given input" in {
-    val expectedOutput = new Text("ERROR,af0ce3H6sA5hM8qR7hae3bf1H8jV8j,30")
+    val expectedOutput = new Text("ERROR,af0ce3H6sA5hM8qR7hae3bf1H8jV8j")
     val output = helperClass.maxCharacterHelper(input)
-    output.shouldBe(expectedOutput)
+    output._1.shouldBe(expectedOutput)
   }
 
   it should "return no output if there was no match" in {
     val output = helperClass.maxCharacterHelper(inputWithNoMatch)
-    output.shouldBe(null)
+    output.shouldBe(Tuple2(null,null))
   }
 
 }
