@@ -1,4 +1,5 @@
 
+import com.typesafe.config.ConfigFactory
 import combiners.Combiner
 import org.apache.hadoop.io.{IntWritable, Text}
 import org.apache.hadoop.mapred.{FileInputFormat, FileOutputFormat, JobClient, JobConf, TextInputFormat, TextOutputFormat}
@@ -9,7 +10,6 @@ import org.apache.commons.io.FileUtils.copyFile
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.mapred.lib.{CombineFileInputFormat, CombineTextInputFormat}
 import reducers.*
-import helpers.CompositeKey
 
 import java.io.File
 
@@ -27,10 +27,11 @@ object StartLogAnalysis:
 */
   //creating logger
   val logger: Logger = Logger.getLogger(getClass.getName)
+  val config = ConfigFactory.load()
   @main def runMapReduce(jobId: String, inputPath: String, outputPath: String): Unit =
-    
+
    // running different job based on user input
-   
+
     if (jobId == "1"||jobId=="5") {
       runJob1(inputPath, outputPath)
     }
@@ -46,7 +47,7 @@ object StartLogAnalysis:
     if (jobId == "4"||jobId=="5") {
       runJob4(inputPath, outputPath)
     }
-    
+
   def runJob1(inputPath: String, outputPath: String):Unit =
     //Initialising Job configurations such as assigning mapper and reducers, setting input/output format
     logger.info("Job 1 was picked to compute distribution of different messages type for predefined time intervals matching provided pattern")
@@ -69,9 +70,10 @@ object StartLogAnalysis:
     FileOutputFormat.setOutputPath(conf, new Path(opPath))
     logger.info("Job triggered")
     JobClient.runJob(conf)
-    new File(opPath.concat("\\part-00000")).renameTo(new File(opPath.concat("\\output.csv")))
-    
-  
+    if(config.getString("LogMessageInfo.env")=="local") {
+      new File(opPath.concat("\\part-00000")).renameTo(new File(opPath.concat("\\output.csv")))
+    }
+
   def runJob2(inputPath: String, outputPath: String):Unit =
     //Initialising Job configurations such as assigning mapper and reducers, setting input/output format
     logger.info("Job 2 was picked to compute distribution of ERROR messages type for interval chunks of provided time interval in minutes where message matches provided pattern")
@@ -94,8 +96,8 @@ object StartLogAnalysis:
     FileOutputFormat.setOutputPath(conf, new Path(opPath))
     logger.info("Job 2 Part 1 triggered")
     JobClient.runJob(conf)
-    
-    //pipelining output from first job to a second job 
+
+    //pipelining output from first job to a second job
     logger.info("Triggering part 2 of job 2")
     val conf2: JobConf = new JobConf(this.getClass)
     conf2.setJobName("LogAnalyserJob2Part2")
@@ -116,7 +118,9 @@ object StartLogAnalysis:
     FileOutputFormat.setOutputPath(conf2, new Path(opPath2))
     logger.info("Job 2 Part 2 triggered")
     JobClient.runJob(conf2)
-    new File(opPath2.concat("\\part-00000")).renameTo(new File(opPath2.concat("\\output.csv")))
+    if (config.getString("LogMessageInfo.env") == "local") {
+      new File(opPath.concat("\\part-00000")).renameTo(new File(opPath.concat("\\output.csv")))
+    }
 
 
   def runJob3(inputPath: String, outputPath: String):Unit =
@@ -140,7 +144,9 @@ object StartLogAnalysis:
     FileOutputFormat.setOutputPath(conf, new Path(opPath))
     logger.info("Job triggered")
     JobClient.runJob(conf)
-    new File(opPath.concat("\\part-00000")).renameTo(new File(opPath.concat("\\output.csv")))
+    if (config.getString("LogMessageInfo.env") == "local") {
+      new File(opPath.concat("\\part-00000")).renameTo(new File(opPath.concat("\\output.csv")))
+    }
 
 
   def runJob4(inputPath: String, outputPath: String):Unit =
@@ -164,4 +170,6 @@ object StartLogAnalysis:
     FileOutputFormat.setOutputPath(conf, new Path(opPath))
     logger.info("Job triggered")
     JobClient.runJob(conf)
-    new File(opPath.concat("\\part-00000")).renameTo(new File(opPath.concat("\\output.csv")))
+    if (config.getString("LogMessageInfo.env") == "local") {
+      new File(opPath.concat("\\part-00000")).renameTo(new File(opPath.concat("\\output.csv")))
+    }
